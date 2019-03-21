@@ -1,0 +1,98 @@
+version: 2
+jobs:
+  setup:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    steps:
+      - run:
+          name: Cloning Kokkos development branch
+          command: |
+            git clone https://github.com/msimberg/kokkos.git
+            cd kokkos
+            git checkout hpx-backend
+      - run:
+          name: Configure HPX runtime
+          command: |
+            printf '[hpx]\nos_threads=2' > hpx.ini
+      - persist_to_workspace:
+           root: /kokkos-hpx
+           paths:
+             - ./*
+  build_and_test_blocking:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --with-devices=HPX \
+                --with-hpx-options= \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+  build_and_test_async:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --with-devices=HPX \
+                --with-hpx-options=enable_async_dispatch \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+
+workflows:
+  version: 2
+  nightly:
+    jobs:
+      - setup
+      - build_and_test_blocking:
+          requires:
+            - setup
+      - build_and_test_async:
+          requires:
+            - setup
+
