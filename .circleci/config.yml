@@ -10,7 +10,7 @@ jobs:
           command: |
             git clone https://github.com/msimberg/kokkos.git
             cd kokkos
-            git checkout hpx-backend
+            git checkout develop
       - run:
           name: Configure HPX runtime
           command: |
@@ -87,6 +87,13 @@ jobs:
 workflows:
   version: 2
   nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * * "
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - setup
       - build_and_test_blocking:
