@@ -8,7 +8,7 @@ jobs:
       - run:
           name: Cloning Kokkos development branch
           command: |
-            git clone https://github.com/msimberg/kokkos.git
+            git clone https://github.com/kokkos/kokkos.git
             cd kokkos
             git checkout develop
       - run:
