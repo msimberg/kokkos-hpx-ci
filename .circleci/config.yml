@@ -8,9 +8,9 @@ jobs:
       - run:
           name: Cloning Kokkos development branch
           command: |
-            git clone https://github.com/kokkos/kokkos.git
+            git clone https://github.com/msimberg/kokkos.git
             cd kokkos
-            git checkout develop
+            git checkout hpx-backend-task-distribution
       - run:
           name: Configure HPX runtime
           command: |
@@ -19,7 +19,7 @@ jobs:
            root: /kokkos-hpx
            paths:
              - ./*
-  build_and_test_blocking:
+  build_and_test_blocking_0:
     docker:
       - image: stellargroup/hpx:dev
     working_directory: /kokkos-hpx
@@ -41,6 +41,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=0" \
                 --with-devices=HPX \
                 --with-hpx-options= \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -51,7 +52,7 @@ jobs:
           command: |
             cd build
             make test
-  build_and_test_async:
+  build_and_test_async_0:
     docker:
       - image: stellargroup/hpx:dev
     working_directory: /kokkos-hpx
@@ -73,6 +74,139 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=0" \
+                --with-devices=HPX \
+                --with-hpx-options=enable_async_dispatch \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+  build_and_test_blocking_1:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=1" \
+                --with-devices=HPX \
+                --with-hpx-options= \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+  build_and_test_async_1:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=1" \
+                --with-devices=HPX \
+                --with-hpx-options=enable_async_dispatch \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+  build_and_test_blocking_2:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=2" \
+                --with-devices=HPX \
+                --with-hpx-options= \
+                --with-options=disable_deprecated_code,compiler_warnings \
+                --debug
+            make -j2 build-test
+      - run:
+          name: Running Kokkos tests (blocking)
+          command: |
+            cd build
+            make test
+  build_and_test_async_2:
+    docker:
+      - image: stellargroup/hpx:dev
+    working_directory: /kokkos-hpx
+    environment:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
+      HPX_INI: /kokkos-hpx/hpx.ini
+    steps:
+      - attach_workspace:
+          at: /kokkos-hpx
+      - run:
+          # TODO: Add bc to image
+          name: Installing bc for Makefiles
+          command: |
+            apt install -y bc
+      - run:
+          name: Building Kokkos with HPX backend (blocking)
+          command: |
+            mkdir build && cd build
+            ../kokkos/generate_makefile.bash \
+                --compiler=$CXX \
+                --cxxstandard=c++17 \
+                --cxxflags="-DKOKKOS_HPX_IMPLEMENTATION=2" \
                 --with-devices=HPX \
                 --with-hpx-options=enable_async_dispatch \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -96,10 +230,22 @@ workflows:
                 - master
     jobs:
       - setup
-      - build_and_test_blocking:
+      - build_and_test_blocking_0:
           requires:
             - setup
-      - build_and_test_async:
+      - build_and_test_async_0:
+          requires:
+            - setup
+      - build_and_test_blocking_1:
+          requires:
+            - setup
+      - build_and_test_async_1:
+          requires:
+            - setup
+      - build_and_test_blocking_2:
+          requires:
+            - setup
+      - build_and_test_async_2:
           requires:
             - setup
 
