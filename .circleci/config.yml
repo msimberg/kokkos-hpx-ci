@@ -41,7 +41,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 --with-devices=HPX \
                 --with-hpx-options= \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -74,7 +74,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 --with-devices=HPX \
                 --with-hpx-options=enable_async_dispatch \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -107,7 +107,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 --with-devices=HPX \
                 --with-hpx-options= \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -140,7 +140,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 --with-devices=HPX \
                 --with-hpx-options=enable_async_dispatch \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -173,7 +173,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
                 --with-devices=HPX \
                 --with-hpx-options= \
                 --with-options=disable_deprecated_code,compiler_warnings \
@@ -206,7 +206,7 @@ jobs:
             ../kokkos/generate_makefile.bash \
                 --compiler=$CXX \
                 --cxxstandard=c++17 \
-                --cxxflags="-Werror -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
                 --with-devices=HPX \
                 --with-hpx-options=enable_async_dispatch \
                 --with-options=disable_deprecated_code,compiler_warnings \
