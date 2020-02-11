@@ -38,15 +38,18 @@ jobs:
           name: Building Kokkos with HPX backend (blocking, version 0)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
-                --with-devices=HPX \
-                --with-hpx-options= \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=OFF
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
@@ -71,15 +74,18 @@ jobs:
           name: Building Kokkos with HPX backend (async, version 0)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
-                --with-devices=HPX \
-                --with-hpx-options=enable_async_dispatch \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
@@ -104,15 +110,18 @@ jobs:
           name: Building Kokkos with HPX backend (blocking, version 1)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
-                --with-devices=HPX \
-                --with-hpx-options= \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=OFF
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
@@ -137,15 +146,18 @@ jobs:
           name: Building Kokkos with HPX backend (async, version 1)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
-                --with-devices=HPX \
-                --with-hpx-options=enable_async_dispatch \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
@@ -170,15 +182,18 @@ jobs:
           name: Building Kokkos with HPX backend (blocking, version 2)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
-                --with-devices=HPX \
-                --with-hpx-options= \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=OFF
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
@@ -203,15 +218,18 @@ jobs:
           name: Building Kokkos with HPX backend (async, version 2)
           command: |
             mkdir build && cd build
-            ../kokkos/generate_makefile.bash \
-                --compiler=$CXX \
-                --cxxstandard=c++17 \
-                --cxxflags="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
-                --with-devices=HPX \
-                --with-hpx-options=enable_async_dispatch \
-                --with-options=disable_deprecated_code,compiler_warnings \
-                --debug
-            make -k -j2 build-test
+            cmake \
+                ../kokkos \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_COMPILER=$CXX \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                -DKokkos_CXX_STANDARD=17 \
+                -DKokkos_ENABLE_HPX=ON \
+                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
+                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON
+            make -k -j2 all
+            ctest --output-on-failure
       - run:
           name: Running Kokkos tests
           command: |
