@@ -54,7 +54,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
   build_and_test_async_0:
     docker:
       - image: stellargroup/hpx:dev
@@ -90,7 +90,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
   build_and_test_blocking_1:
     docker:
       - image: stellargroup/hpx:dev
@@ -126,7 +126,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
   build_and_test_async_1:
     docker:
       - image: stellargroup/hpx:dev
@@ -162,7 +162,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
   build_and_test_blocking_2:
     docker:
       - image: stellargroup/hpx:dev
@@ -198,7 +198,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
   build_and_test_async_2:
     docker:
       - image: stellargroup/hpx:dev
@@ -234,7 +234,7 @@ jobs:
           name: Running Kokkos tests
           command: |
             cd build
-            make test
+            ctest --output-on-failure
 
 workflows:
   version: 2
