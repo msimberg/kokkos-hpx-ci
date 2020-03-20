@@ -54,6 +54,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
@@ -92,6 +93,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
@@ -130,6 +132,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
@@ -168,6 +171,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
@@ -206,6 +210,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
@@ -244,6 +249,7 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
+          no_output_timeout: 30m
           command: |
             cd build
             ctest --output-on-failure
