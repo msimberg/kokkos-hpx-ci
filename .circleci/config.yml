@@ -10,7 +10,7 @@ jobs:
           command: |
             git clone https://github.com/msimberg/kokkos.git
             cd kokkos
-            git checkout hpx-backend-fixes
+            git checkout hpx-backend-independent-instances-test
       - run:
           name: Configure HPX runtime
           command: |
