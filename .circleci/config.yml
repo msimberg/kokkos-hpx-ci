@@ -54,10 +54,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
   build_and_test_async_0:
     docker:
       - image: stellargroup/hpx:dev
@@ -93,10 +93,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
   build_and_test_blocking_1:
     docker:
       - image: stellargroup/hpx:dev
@@ -132,10 +132,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
   build_and_test_async_1:
     docker:
       - image: stellargroup/hpx:dev
@@ -171,10 +171,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
   build_and_test_blocking_2:
     docker:
       - image: stellargroup/hpx:dev
@@ -210,10 +210,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
   build_and_test_async_2:
     docker:
       - image: stellargroup/hpx:dev
@@ -249,10 +249,10 @@ jobs:
             ninja -j1 -k 0 all
       - run:
           name: Running Kokkos tests
-          no_output_timeout: 30m
+          no_output_timeout: 60m
           command: |
             cd build
-            ctest --output-on-failure
+            ctest --timeout 3000 --output-on-failure
 
 workflows:
   version: 2
