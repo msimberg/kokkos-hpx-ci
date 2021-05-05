@@ -33,6 +33,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (blocking, version 0)
@@ -72,6 +73,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (async, version 0)
@@ -111,6 +113,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (blocking, version 1)
@@ -150,6 +153,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (async, version 1)
@@ -189,6 +193,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (blocking, version 2)
@@ -228,6 +233,7 @@ jobs:
           # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
+            apt update
             apt install -y bc
       - run:
           name: Building Kokkos with HPX backend (async, version 2)
