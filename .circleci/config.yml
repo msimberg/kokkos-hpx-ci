@@ -44,7 +44,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -84,7 +84,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -124,7 +124,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -164,7 +164,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -204,7 +204,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=2" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -244,7 +244,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=2" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
