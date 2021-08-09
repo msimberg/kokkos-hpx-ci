@@ -8,9 +8,10 @@ jobs:
       - run:
           name: Cloning Kokkos development branch
           command: |
-            git clone https://github.com/kokkos/kokkos.git
+            git clone https://github.com/msimberg/kokkos.git
             cd kokkos
-            git checkout develop
+            git checkout hpx-update-deprecations
+            git rev-parse HEAD
       - run:
           name: Configure HPX runtime
           command: |
@@ -30,7 +31,6 @@ jobs:
       - attach_workspace:
           at: /kokkos-hpx
       - run:
-          # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
             apt update
@@ -44,7 +44,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DCMAKE_CXX_FLAGS="-Werror -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -70,7 +70,6 @@ jobs:
       - attach_workspace:
           at: /kokkos-hpx
       - run:
-          # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
             apt update
@@ -84,7 +83,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=0" \
+                -DCMAKE_CXX_FLAGS="-Werror -DKOKKOS_HPX_IMPLEMENTATION=0" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -110,7 +109,6 @@ jobs:
       - attach_workspace:
           at: /kokkos-hpx
       - run:
-          # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
             apt update
@@ -124,7 +122,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=1" \
+                -DCMAKE_CXX_FLAGS="-Werror -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -150,7 +148,6 @@ jobs:
       - attach_workspace:
           at: /kokkos-hpx
       - run:
-          # TODO: Add bc to image
           name: Installing bc for Makefiles
           command: |
             apt update
@@ -164,87 +161,7 @@ jobs:
                 -GNinja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=1" \
-                -DKokkos_CXX_STANDARD=17 \
-                -DKokkos_ENABLE_TESTS=ON \
-                -DKokkos_ENABLE_HPX=ON \
-                -DKokkos_ENABLE_SERIAL=OFF \
-                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
-                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
-                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON
-            ninja -j1 -k 0 all
-      - run:
-          name: Running Kokkos tests
-          no_output_timeout: 60m
-          command: |
-            cd build
-            ctest --timeout 3000 --output-on-failure
-  build_and_test_blocking_2:
-    docker:
-      - image: stellargroup/hpx:dev
-    working_directory: /kokkos-hpx
-    environment:
-      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
-      HPX_INI: /kokkos-hpx/hpx.ini
-    steps:
-      - attach_workspace:
-          at: /kokkos-hpx
-      - run:
-          # TODO: Add bc to image
-          name: Installing bc for Makefiles
-          command: |
-            apt update
-            apt install -y bc
-      - run:
-          name: Building Kokkos with HPX backend (blocking, version 2)
-          command: |
-            mkdir build && cd build
-            cmake \
-                ../kokkos \
-                -GNinja \
-                -DCMAKE_BUILD_TYPE=Debug \
-                -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=2" \
-                -DKokkos_CXX_STANDARD=17 \
-                -DKokkos_ENABLE_TESTS=ON \
-                -DKokkos_ENABLE_HPX=ON \
-                -DKokkos_ENABLE_SERIAL=OFF \
-                -DKokkos_ENABLE_DEPRECATED_CODE=OFF \
-                -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
-                -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=OFF
-            ninja -j1 -k 0 all
-      - run:
-          name: Running Kokkos tests
-          no_output_timeout: 60m
-          command: |
-            cd build
-            ctest --timeout 3000 --output-on-failure
-  build_and_test_async_2:
-    docker:
-      - image: stellargroup/hpx:dev
-    working_directory: /kokkos-hpx
-    environment:
-      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig/
-      HPX_INI: /kokkos-hpx/hpx.ini
-    steps:
-      - attach_workspace:
-          at: /kokkos-hpx
-      - run:
-          # TODO: Add bc to image
-          name: Installing bc for Makefiles
-          command: |
-            apt update
-            apt install -y bc
-      - run:
-          name: Building Kokkos with HPX backend (async, version 2)
-          command: |
-            mkdir build && cd build
-            cmake \
-                ../kokkos \
-                -GNinja \
-                -DCMAKE_BUILD_TYPE=Debug \
-                -DCMAKE_CXX_COMPILER=$CXX \
-                -DCMAKE_CXX_FLAGS="-Werror -Wno-#warnings -Wno-deprecated -DKOKKOS_HPX_IMPLEMENTATION=2" \
+                -DCMAKE_CXX_FLAGS="-Werror -DKOKKOS_HPX_IMPLEMENTATION=1" \
                 -DKokkos_CXX_STANDARD=17 \
                 -DKokkos_ENABLE_TESTS=ON \
                 -DKokkos_ENABLE_HPX=ON \
@@ -263,13 +180,13 @@ jobs:
 workflows:
   version: 2
   nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * * "
-          filters:
-            branches:
-              only:
-                - master
+    # triggers:
+    #   - schedule:
+    #       cron: "0 0 * * * "
+    #       filters:
+    #         branches:
+    #           only:
+    #             - master
     jobs:
       - setup
       - build_and_test_blocking_0:
@@ -284,10 +201,3 @@ workflows:
       - build_and_test_async_1:
           requires:
             - setup
-      - build_and_test_blocking_2:
-          requires:
-            - setup
-      - build_and_test_async_2:
-          requires:
-            - setup
-
