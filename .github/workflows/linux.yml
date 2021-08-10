@@ -1,0 +1,61 @@
+# Copyright (c) 2020 ETH Zurich
+#
+# SPDX-License-Identifier: BSL-1.0
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+name: Linux CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    container:
+      image: stellargroup/hpx:dev
+    strategy:
+      fail-fast: false
+      matrix:
+        async_dispatch: [ON, OFF]
+        backend_implementation: [0, 1]
+
+    env:
+      PKG_CONFIG_PATH: /usr/local/lib/pkgconfig
+    steps:
+    - uses: actions/checkout@v2
+    - name: Clone Kokkos development branch
+      run: |
+          git clone https://github.com/msimberg/kokkos.git
+          cd kokkos
+          git checkout hpx-update-deprecations
+          git rev-parse HEAD
+    - name: Install bc for Makefiles
+      run: |
+          apt update
+          apt install -y bc
+    - name: Configure
+      run: |
+          cmake -B build -S kokkos \
+              -GNinja \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_CXX_COMPILER=$CXX \
+              -DCMAKE_CXX_FLAGS="-DKOKKOS_HPX_IMPLEMENTATION=${{ matrix.backend_implementation }}" \
+              -DKokkos_CXX_STANDARD=17 \
+              -DKokkos_ENABLE_TESTS=ON \
+              -DKokkos_ENABLE_HPX=ON \
+              -DKokkos_ENABLE_SERIAL=OFF \
+              -DKokkos_ENABLE_COMPILER_WARNINGS=ON \
+              -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=${{ matrix.async_dispatch }}
+    - name: Build
+      run: |
+          cmake --build build --target all
+    - name: Test
+      run: |
+          printf '[hpx]\nos_threads=2' > hpx.ini
+          export HPX_INI=$PWD/hpx.ini
+          cd build
+          ctest --output-on-failure --timeout 3000
