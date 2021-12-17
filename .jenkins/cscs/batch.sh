@@ -36,7 +36,7 @@ git clone \
     --branch ${kokkos_version} \
     --single-branch \
     --depth 1 \
-    https://github.com/msimberg/kokkos.git /dev/shm/kokkos/src
+    https://github.com/kokkos/kokkos.git /dev/shm/kokkos/src
 
 # Copy CTest config file to Kokkos root, where it will be found by CTest
 cp "${src_dir}/CTestConfig.cmake" /dev/shm/kokkos/src
@@ -76,7 +76,7 @@ if [[ -f ${build_dir}/Testing/TAG ]]; then
         test_errors=$(grep '<Test Status=\"failed\">' "${build_dir}/Testing/${tag}/Test.xml" | wc -l)
     fi
 fi
-ctest_status=$(( ctest_exit_code + file_errors + configure_errors + build_errors + test_errors ))
+ctest_status=$((ctest_exit_code + file_errors + configure_errors + build_errors + test_errors))
 
-echo "${ctest_status}" > "jenkins-kokkos-${configuration_name_with_options}-ctest-status.txt"
+echo "${ctest_status}" >"jenkins-kokkos-${configuration_name_with_options}-ctest-status.txt"
 exit $ctest_status

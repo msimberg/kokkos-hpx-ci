@@ -29,9 +29,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Clone Kokkos development branch
       run: |
-          git clone https://github.com/msimberg/kokkos.git
+          git clone https://github.com/kokkos/kokkos.git
           cd kokkos
-          git checkout hpx-update-deprecations
+          git checkout develop
           git rev-parse HEAD
     - name: Install bc for Makefiles
       run: |
