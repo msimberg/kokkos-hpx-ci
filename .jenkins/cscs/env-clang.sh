@@ -10,15 +10,16 @@ export CXX_STD="17"
 export HWLOC_ROOT="${APPS_ROOT}/hwloc-2.0.3-gcc-8.3.0"
 
 module load daint-gpu
-module load cudatoolkit/11.0.2_3.34-7.0.2.1_4.6__g017096a
-module load Boost/1.75.0-CrayCCE-20.11
+module load cudatoolkit/11.0.2_3.38-8.1__g5b73779
+module load Boost/1.78.0-CrayGNU-21.09
+module switch PrgEnv-gnu PrgEnv-cray
 
 export CXX=`which CC`
 export CC=`which cc`
 
 configure_extra_options="-DCMAKE_BUILD_TYPE=${build_type}"
 configure_extra_options+=" -DKokkos_ENABLE_TESTS=ON"
-configure_extra_options+=" -DKokkos_CXX_STANDARD=${CXX_STD}"
+configure_extra_options+=" -DCMAKE_CXX_STANDARD=${CXX_STD}"
 configure_extra_options+=" -DKokkos_ENABLE_SERIAL=OFF"
 configure_extra_options+=" -DKokkos_ENABLE_HPX=ON"
 configure_extra_options+=" -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=${async_dispatch}"
@@ -27,7 +28,6 @@ configure_extra_options+=" -DKokkos_ENABLE_CUDA_LAMBDA=${cuda}"
 configure_extra_options+=" -DKokkos_ENABLE_CUDA_CONSTEXPR=${cuda}"
 configure_extra_options+=" -DKokkos_ARCH_HSW=ON"
 configure_extra_options+=" -DKokkos_ARCH_PASCAL60=${cuda}"
-configure_extra_options+=" -DKokkos_ENABLE_IMPL_DESUL_ATOMICS=OFF"
 
 hpx_configure_extra_options="-DCMAKE_BUILD_TYPE=Debug"
 hpx_configure_extra_options+=" -DHPX_WITH_EXAMPLES=OFF"
@@ -36,7 +36,7 @@ hpx_configure_extra_options+=" -DHPX_WITH_MALLOC=system"
 hpx_configure_extra_options+=" -DHPX_WITH_NETWORKING=OFF"
 hpx_configure_extra_options+=" -DHPX_WITH_DISTRIBUTED_RUNTIME=OFF"
 hpx_configure_extra_options+=" -DHPX_WITH_FETCH_ASIO=ON"
-hpx_configure_extra_options+=" -DHPX_WITH_CXX${CXX_STD}=ON"
+hpx_configure_extra_options+=" -DHPX_WITH_CXX_STANDARD=${CXX_STD}"
 hpx_configure_extra_options+=" -DHPX_WITH_CUDA=${cuda}"
 hpx_configure_extra_options+=" -DCMAKE_CUDA_COMPILER=$(which $CXX)"
 hpx_configure_extra_options+=" -DCMAKE_CUDA_ARCHITECTURES=60"
@@ -52,4 +52,4 @@ hpx_configure_extra_options+=" -DCMAKE_CUDA_ARCHITECTURES=60"
 #
 # This also sets the Kokkos HPX backend implementation, because it has to be
 # passed in the same variable.
-export CXXFLAGS="-I/dev/shm/hpx/src/.jenkins/cscs/ -DBOOST_USER_CONFIG='<boost_user_config_cray_clang.hpp>' -DKOKKOS_HPX_IMPLEMENTATION=${hpx_backend_implementation}"
+export CXXFLAGS="-I/dev/shm/hpx/src/.jenkins/cscs/ -DBOOST_USER_CONFIG='<boost_user_config_cray_clang.hpp>'"

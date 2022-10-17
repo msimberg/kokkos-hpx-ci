@@ -55,19 +55,15 @@ pipeline {
                     }
                     axis {
                         name 'hpx_version'
-                        values '1.7.0'
+                        values '1.8.0'
                     }
                     axis {
                         name 'kokkos_version'
-                        values 'develop'
+                        values 'hpx-sender-receiver'
                     }
                     axis {
-                         name 'async_dispatch'
-                         values 'ON' , 'OFF'
-                    }
-                    axis {
-                         name 'hpx_backend_implementation'
-                         values '1'
+                        name 'async_dispatch'
+                        values 'ON', 'OFF'
                     }
                 }
                 stages {

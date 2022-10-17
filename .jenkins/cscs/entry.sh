@@ -12,7 +12,7 @@ set -eux
 # Clean up old artifacts
 rm -f ./jenkins-kokkos* ./*-Testing
 
-export configuration_name_with_options="${configuration_name}-${build_type,,}-cuda-${cuda}-hpx-${hpx_version}-kokkos-${kokkos_version}-async-dispatch-${async_dispatch}-backend-${hpx_backend_implementation}"
+export configuration_name_with_options="${configuration_name}-${build_type,,}-cuda-${cuda}-hpx-${hpx_version}-kokkos-${kokkos_version}-async-dispatch-${async_dispatch}"
 
 source .jenkins/cscs/slurm-constraint-${configuration_name}.sh
 

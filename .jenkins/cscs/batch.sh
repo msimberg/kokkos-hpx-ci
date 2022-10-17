@@ -32,14 +32,17 @@ cmake \
 cmake --build /dev/shm/hpx/build
 cmake --install /dev/shm/hpx/build
 
+kokkos_src_dir="/dev/shm/kokkos/src"
+kokkos_build_dir="/dev/shm/kokkos/build"
+
 git clone \
     --branch ${kokkos_version} \
     --single-branch \
     --depth 1 \
-    https://github.com/kokkos/kokkos.git /dev/shm/kokkos/src
+    https://github.com/msimberg/kokkos.git "${kokkos_src_dir}"
 
 # Copy CTest config file to Kokkos root, where it will be found by CTest
-cp "${src_dir}/CTestConfig.cmake" /dev/shm/kokkos/src
+cp "${src_dir}/CTestConfig.cmake" "${kokkos_src_dir}"
 
 set +e
 ctest \
@@ -47,12 +50,12 @@ ctest \
     -S ${src_dir}/.jenkins/cscs/ctest.cmake \
     -DCTEST_CONFIGURE_EXTRA_OPTIONS="${configure_extra_options} -DHPX_DIR=/dev/shm/hpx/install/lib64/cmake/HPX" \
     -DCTEST_BUILD_CONFIGURATION_NAME="${configuration_name_with_options}" \
-    -DCTEST_SOURCE_DIRECTORY="/dev/shm/kokkos/src" \
-    -DCTEST_BINARY_DIRECTORY="/dev/shm/kokkos/build"
+    -DCTEST_SOURCE_DIRECTORY="${kokkos_src_dir}" \
+    -DCTEST_BINARY_DIRECTORY="${kokkos_build_dir}"
 set -e
 
 # Copy the testing directory for saving as an artifact
-cp -r /dev/shm/kokkos/build/Testing ${orig_src_dir}/${configuration_name_with_options}-Testing
+cp -r "${kokkos_build_dir}/Testing" ${orig_src_dir}/${configuration_name_with_options}-Testing
 
 # Things went wrong by default
 ctest_exit_code=$?
@@ -60,20 +63,20 @@ file_errors=1
 configure_errors=1
 build_errors=1
 test_errors=1
-if [[ -f ${build_dir}/Testing/TAG ]]; then
+if [[ -f ${kokkos_build_dir}/Testing/TAG ]]; then
     file_errors=0
-    tag="$(head -n 1 ${build_dir}/Testing/TAG)"
+    tag="$(head -n 1 ${kokkos_build_dir}/Testing/TAG)"
 
-    if [[ -f "${build_dir}/Testing/${tag}/Configure.xml" ]]; then
-        configure_errors=$(grep '<Error>' "${build_dir}/Testing/${tag}/Configure.xml" | wc -l)
+    if [[ -f "${kokkos_build_dir}/Testing/${tag}/Configure.xml" ]]; then
+        configure_errors=$(grep '<Error>' "${kokkos_build_dir}/Testing/${tag}/Configure.xml" | wc -l)
     fi
 
-    if [[ -f "${build_dir}/Testing/${tag}/Build.xml" ]]; then
-        build_errors=$(grep '<Error>' "${build_dir}/Testing/${tag}/Build.xml" | wc -l)
+    if [[ -f "${kokkos_build_dir}/Testing/${tag}/Build.xml" ]]; then
+        build_errors=$(grep '<Error>' "${kokkos_build_dir}/Testing/${tag}/Build.xml" | wc -l)
     fi
 
-    if [[ -f "${build_dir}/Testing/${tag}/Test.xml" ]]; then
-        test_errors=$(grep '<Test Status=\"failed\">' "${build_dir}/Testing/${tag}/Test.xml" | wc -l)
+    if [[ -f "${kokkos_build_dir}/Testing/${tag}/Test.xml" ]]; then
+        test_errors=$(grep '<Test Status=\"failed\">' "${kokkos_build_dir}/Testing/${tag}/Test.xml" | wc -l)
     fi
 fi
 ctest_status=$((ctest_exit_code + file_errors + configure_errors + build_errors + test_errors))
