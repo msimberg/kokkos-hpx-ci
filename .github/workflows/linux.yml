@@ -56,4 +56,4 @@ jobs:
           printf '[hpx]\nos_threads=2' > hpx.ini
           export HPX_INI=$PWD/hpx.ini
           cd build
-          ctest --output-on-failure --timeout 3000
+          ctest --verbose --timeout 1500
