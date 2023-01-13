@@ -45,7 +45,7 @@ jobs:
               -DCMAKE_CXX_STANDARD=17 \
               -DKokkos_ENABLE_TESTS=ON \
               -DKokkos_ENABLE_HPX=ON \
-              -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=${{ matrix.async_dispatch }} \
+              -DKokkos_ENABLE_IMPL_HPX_ASYNC_DISPATCH=${{ matrix.async_dispatch }} \
               -DKokkos_ENABLE_SERIAL=OFF \
               -DKokkos_ENABLE_COMPILER_WARNINGS=ON
     - name: Build
