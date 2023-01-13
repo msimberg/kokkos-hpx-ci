@@ -32,10 +32,6 @@ jobs:
           cd kokkos
           git checkout hpx-sender-receiver
           git rev-parse HEAD
-    - name: Install bc for Makefiles
-      run: |
-          apt update
-          apt install -y bc
     - name: Configure
       run: |
           cmake -B build -S kokkos \
